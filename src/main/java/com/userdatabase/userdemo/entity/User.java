@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 public class User {
 
 	@Id
-	int id;
+	String id;
 	String name;
 	String email;
 	String phoneNo;
@@ -18,8 +18,11 @@ public class User {
 		this.phoneNo = phoneNo;
 	}
 
+	public User() {
+	}
+
 	// Getters and Setters
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

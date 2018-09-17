@@ -29,11 +29,21 @@ public class UserController {
 		return repository.findById(userId);
 	}
 
-	// @RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
-	// public void update(@PathVariable("userId") String userId,
-	// @RequestBody User user) {
-	// repository.save(userId);
-	// }
+	@RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
+	public User update(@PathVariable String userId, @RequestBody User user) {
+		Optional<User> userToUpdate = repository.findById(userId);
+		if (user.getName() != null)
+
+			userToUpdate.get().setName(user.getName());
+		if (user.getEmail() != null)
+			userToUpdate.get().setEmail(user.getEmail());
+		;
+		if (user.getPhoneNo() != null)
+			userToUpdate.get().setPhoneNo(user.getPhoneNo());
+
+		repository.save(userToUpdate.get());
+		return userToUpdate.get();
+	}
 
 	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
 	public String delete(@PathVariable String userId) {

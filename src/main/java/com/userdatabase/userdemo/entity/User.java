@@ -1,19 +1,31 @@
 package com.userdatabase.userdemo.entity;
 
+import org.springframework.data.annotation.Id;
+
 public class User {
-	private int id;
-	private String name;
-	private String email;
-	private String phoneNo;
+
+	@Id
+	int id;
+	String name;
+	String email;
+	String phoneNo;
+
+	// Constructor
+	public User(String name, String email, String phoneNo) {
+		super();
+		this.name = name;
+		this.email = email;
+		this.phoneNo = phoneNo;
+	}
 
 	// Getters and Setters
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+	// public void setId(int id) {
+	// this.id = id;
+	// }
 
 	public String getName() {
 		return name;

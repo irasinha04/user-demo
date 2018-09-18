@@ -1,19 +1,19 @@
 # user-demo
-1. Information: A CRUD project based on Spring and MongoDB
+1. Information: A Java project using Maven to create a REST API in which the user is able to create, fetch, update and delete a user from    the system. All data is stored in MongoDB.
 2. Dependencies: MongoDB, Web
 3. To Run: 
 
    a. Run MongoDB server by typing mongod in Command Prompt
    
-   b. Run the code as Java Application in any IDE as Eclipse
+   b. Run the code as Java Application in any IDE such as Eclipse
    
    c. Test the code in Postman as follows:
    
       i. Select HTTP method POST/PUT/GET or DELETE accordingly.
       
-      ii. In url, enter the endpoints
+      ii. In url, enter the endpoints as given below.
       
-      iii. In body, select "raw" and then select "JSON(application/json)"
+      iii. In body, select "raw" and then select "JSON(application/json)". Write the Body as given below.
       
    
   |    Method	| Endpoints                                            |	Body	                                  | Notes                |

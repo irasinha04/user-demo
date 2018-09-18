@@ -8,7 +8,11 @@
    b. Run the code as Java Application in any IDE as Eclipse
    
    c. Test the code in Postman as follows:
-      i. Select HTTP method "POST". In url, enter th
+      i. Select HTTP method POST/PUT/GET or DELETE accordingly.
+      
+      ii.In url, enter the endpoints
+      
+      iii. In body, select "raw" and then select "JSON(application/json)"
       
    
   |    Method	| Endpoints                                            |	Body	                                  | Notes                |
@@ -25,4 +29,4 @@
   |	         |                                                      |}                                        |                      |	
   |     GET    | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |                                         |	To read user details |
   |   DELETE   | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |	                                        |	To delete the user   |
-  |------------|------------------------------------------------------|-----------------------------------------|----------------------|
+  

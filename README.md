@@ -7,4 +7,22 @@
    
    b. Run the code as Java Application in any IDE as Eclipse
    
-   c. Test the code in Postman
+   c. Test the code in Postman as follows:
+      i. Select HTTP method "POST". In url, enter th
+      
+   
+  |    Method	| Endpoints                                            |	Body	                                  | Notes                |
+  |------------|------------------------------------------------------|-----------------------------------------|----------------------|
+  |     POST	| http://localhost:8080/users	                         |{	                                     | To create a user     |
+  |	         |                                                      | "name": "harry potter",	                |                      |
+  |	         |                                                      | "email": "harry.potter@hogwarts.com",   |	                     |
+  |	         |                                                      | "phoneNo": "5555555555"	                |                      |
+  |	         |                                                      |}	                                     |                      |  
+  |     PUT	   | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |{	                                     | To update the user   |
+  |	         |                                                      | "name": "Harry potter",                 |	                     |
+  |	         |                                                      | "email": "harry.potter.7@hogwarts.com", |	                     |
+  |	         |                                                      | "phoneNo": "777777777"                  |                      |	
+  |	         |                                                      |}                                        |                      |	
+  |     GET    | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |                                         |	To read user details |
+  |   DELETE   | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |	                                        |	To delete the user   |
+  |------------|------------------------------------------------------|-----------------------------------------|----------------------|

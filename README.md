@@ -1,5 +1,5 @@
 # user-demo
-1. Info: A CRUD project based on Spring and MongoDB
+1. Information: A CRUD project based on Spring and MongoDB
 2. Dependencies: MongoDB, Web
 3. To Run: 
 
@@ -8,9 +8,10 @@
    b. Run the code as Java Application in any IDE as Eclipse
    
    c. Test the code in Postman as follows:
+   
       i. Select HTTP method POST/PUT/GET or DELETE accordingly.
       
-      ii.In url, enter the endpoints
+      ii. In url, enter the endpoints
       
       iii. In body, select "raw" and then select "JSON(application/json)"
       

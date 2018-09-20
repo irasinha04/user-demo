@@ -1,7 +1,5 @@
 package com.userdatabase.userdemo.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.exception.UserException;
 import com.userdatabase.userdemo.service.UserService;
+
+//A try block here for 404 page not found
 
 @RestController
 @RequestMapping(value = "/users")
@@ -27,29 +28,43 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public Optional<User> fetch(@PathVariable String userId) {
-		return service.findUser(userId);
+	public User fetch(@PathVariable String userId) {
+
+		try {
+			return service.findUser(userId);
+		} catch (UserException e) {
+			if (e.getMessage() == null) {
+				System.out.println(e.getClass().getName());
+			} else {
+				System.out.println(e.getMessage());
+			}
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public Optional<User> update(@PathVariable String userId, @RequestBody User user) {
+	public User update(@PathVariable String userId, @RequestBody User user) {
 
-		Optional<User> userToUpdate = service.findUser(userId);
+		try {
+			User userToUpdate = service.findUser(userId);
 
-		if (userToUpdate.isPresent())
-
-		{
 			if (user.getName() != null)
 
-				userToUpdate.get().setName(user.getName());
+				userToUpdate.setName(user.getName());
 			if (user.getEmail() != null)
-				userToUpdate.get().setEmail(user.getEmail());
+				userToUpdate.setEmail(user.getEmail());
 
 			if (user.getPhoneNo() != null)
-				userToUpdate.get().setPhoneNo(user.getPhoneNo());
+				userToUpdate.setPhoneNo(user.getPhoneNo());
 
-			service.saveUser(userToUpdate.get());
+			service.saveUser(userToUpdate);
 			return userToUpdate;
+		} catch (UserException e) {
+			if (e.getMessage() == null) {
+				System.out.println(e.getClass().getName());
+			} else {
+				System.out.println(e.getMessage());
+			}
 		}
 		return null;
 	}
@@ -57,8 +72,17 @@ public class UserController {
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
 	public String delete(@PathVariable String userId) {
 
-		service.deleteUser(userId);
-		return "User deleted!";
+		try {
+			service.deleteUser(userId);
+			return "User deleted!";
+		} catch (UserException e) {
+			if (e.getMessage() == null) {
+				System.out.println(e.getClass().getName());
+			} else {
+				System.out.println(e.getMessage());
+			}
+		}
+		return null;
 	}
 
 }

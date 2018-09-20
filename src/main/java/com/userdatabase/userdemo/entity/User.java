@@ -9,13 +9,15 @@ public class User {
 	String name;
 	String email;
 	String phoneNo;
+	String password;
 
 	// Constructor
-	public User(String name, String email, String phoneNo) {
+	public User(String name, String email, String phoneNo, String password) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.phoneNo = phoneNo;
+		this.password = password;
 	}
 
 	public User() {
@@ -52,6 +54,14 @@ public class User {
 
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	// toString

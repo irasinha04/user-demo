@@ -1,5 +1,7 @@
 package com.userdatabase.userdemo.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,29 +23,35 @@ public class UserController {
 	public String create(@RequestBody User user) {
 
 		service.saveUser(user);
-		return user.getId(); ///// ***
+		return user.getId();
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public User fetch(@PathVariable String userId) {
+	public Optional<User> fetch(@PathVariable String userId) {
 		return service.findUser(userId);
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public User update(@PathVariable String userId, @RequestBody User user) {
+	public Optional<User> update(@PathVariable String userId, @RequestBody User user) {
 
-		User userToUpdate = service.findUser(userId);
-		if (user.getName() != null)
+		Optional<User> userToUpdate = service.findUser(userId);
 
-			userToUpdate.setName(user.getName());
-		if (user.getEmail() != null)
-			userToUpdate.setEmail(user.getEmail());
+		if (userToUpdate.isPresent())
 
-		if (user.getPhoneNo() != null)
-			userToUpdate.setPhoneNo(user.getPhoneNo());
+		{
+			if (user.getName() != null)
 
-		service.saveUser(userToUpdate);
-		return userToUpdate;
+				userToUpdate.get().setName(user.getName());
+			if (user.getEmail() != null)
+				userToUpdate.get().setEmail(user.getEmail());
+
+			if (user.getPhoneNo() != null)
+				userToUpdate.get().setPhoneNo(user.getPhoneNo());
+
+			service.saveUser(userToUpdate.get());
+			return userToUpdate;
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)

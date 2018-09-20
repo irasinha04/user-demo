@@ -14,9 +14,9 @@ public class UserService {
 	@Autowired
 	UserRepository repository;
 
-	public User findUser(String userId) {
+	public Optional<User> findUser(String userId) {
 		Optional<User> user = repository.findById(userId);
-		return user.get();
+		return user;
 	}
 
 	public void saveUser(User user) {
@@ -27,4 +27,11 @@ public class UserService {
 		repository.deleteById(userId);
 	}
 
+	// TODO Make password variable, change code
+	public boolean validateUser(String user, String password) {
+		if (user.equals("Ira") && password.equals("mypassword")) {
+			return true;
+		}
+		return false;
+	}
 }

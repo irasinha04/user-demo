@@ -1,7 +1,5 @@
 package com.userdatabase.userdemo.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,46 +7,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.service.UserService;
 
 @RestController
+@RequestMapping(value = "/users")
 public class UserController {
-	@Autowired
-	UserRepository repository;
 
-	@RequestMapping(value = "/users", method = RequestMethod.POST)
+	@Autowired
+	UserService service;
+
+	@RequestMapping(method = RequestMethod.POST)
 	public String create(@RequestBody User user) {
 
-		repository.save(user);
+		service.saveUser(user);
 		return user.getId();
 	}
 
-	@RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-	public Optional<User> fetch(@PathVariable String userId) {
-		return repository.findById(userId);
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public User fetch(@PathVariable String userId) throws Exception {
+		return service.findUser(userId);
 	}
 
-	@RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
-	public User update(@PathVariable String userId, @RequestBody User user) {
-		Optional<User> userToUpdate = repository.findById(userId);
+	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
+	public User update(@PathVariable String userId, @RequestBody User user) throws Exception {
+
+		User userToUpdate = service.findUser(userId);
+
 		if (user.getName() != null)
 
-			userToUpdate.get().setName(user.getName());
+			userToUpdate.setName(user.getName());
 		if (user.getEmail() != null)
-			userToUpdate.get().setEmail(user.getEmail());
-		;
-		if (user.getPhoneNo() != null)
-			userToUpdate.get().setPhoneNo(user.getPhoneNo());
+			userToUpdate.setEmail(user.getEmail());
 
-		repository.save(userToUpdate.get());
-		return userToUpdate.get();
+		if (user.getPhoneNo() != null)
+			userToUpdate.setPhoneNo(user.getPhoneNo());
+
+		service.saveUser(userToUpdate);
+		return userToUpdate;
+
 	}
 
-	@RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String userId) {
-		repository.deleteById(userId);
+	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
+	public String delete(@PathVariable String userId) throws Exception {
+
+		service.deleteUser(userId);
 		return "User deleted!";
+
 	}
 
 }

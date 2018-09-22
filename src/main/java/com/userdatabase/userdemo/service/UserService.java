@@ -31,10 +31,4 @@ public class UserService {
 		repository.deleteById(userId);
 	}
 
-	public boolean isUserValid(User user, String userName, String userPassword) {
-		if (user.getName().equals(userName) && user.getPassword().equals(userPassword)) {
-			return true;
-		}
-		return false;
-	}
 }

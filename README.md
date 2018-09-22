@@ -24,7 +24,7 @@
   |	         |                                                      | "phoneNo": "5555555555"	                |                      |
   |	         |                                                      |}	                                     |                      |  
   |     PUT	   | http://localhost:8080/users/5ba07381bc7fb637c4f0daa7 |{	                                     | To update the user   |
-  |	         |                                                      | "name": "Harry potter",                 |	                     |
+  |	         |                                                      | "name": "Harry Potter",                 |	                     |
   |	         |                                                      | "email": "harry.potter.7@hogwarts.com", |	                     |
   |	         |                                                      | "phoneNo": "777777777"                  |                      |	
   |	         |                                                      |}                                        |                      |	

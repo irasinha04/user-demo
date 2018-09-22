@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
-import com.userdatabase.userdemo.exception.UserException;
 
 @Service
 public class UserService {
@@ -19,24 +18,16 @@ public class UserService {
 		repository.save(user);
 	}
 
-	public User findUser(String userId) throws UserException {
+	public User findUser(String userId) throws Exception {
 
 		// Exception for if there is no user with given User Id
 		Optional<User> user = repository.findById(userId);
-		if (user == null) {
-			throw new UserException("No such record found for User id :" + userId);
-		}
-
 		return user.get();
 	}
 
-	public void deleteUser(String userId) throws UserException {
-		User user = findUser(userId);
+	public void deleteUser(String userId) throws Exception {
 
 		// Exception for if the person trying to delete information is not valid
-		if (!(isUserValid(user, user.getName(), user.getPassword()))) {
-			throw new UserException("You are not valid!");
-		}
 		repository.deleteById(userId);
 	}
 

@@ -25,6 +25,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+
 	public User fetch(@PathVariable String userId) {
 		User userToFetch = service.findUser(userId);
 
@@ -33,6 +34,7 @@ public class UserController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	public User update(@PathVariable String userId, @RequestBody User user) {
+
 
 		User userToUpdate = service.findUser(userId);
 
@@ -54,6 +56,8 @@ public class UserController {
 
 		service.deleteUser(userId);
 		return "User deleted!";
+
+
 	}
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
-import com.userdatabase.userdemo.exception.UserException;
+import com.userdatabase.userdemo.exception.UserNotFoundException;
 
 @Service
 public class UserService {
@@ -16,34 +16,29 @@ public class UserService {
 	UserRepository repository;
 
 	public void saveUser(User user) {
+
 		repository.save(user);
 	}
 
-	public User findUser(String userId) throws UserException {
+	public User findUser(String userId) {
 
-		// Exception for if there is no user with given User Id
 		Optional<User> user = repository.findById(userId);
+
 		if (user == null) {
-			throw new UserException("No such record found for User id :" + userId);
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
 
 		return user.get();
 	}
 
-	public void deleteUser(String userId) throws UserException {
-		User user = findUser(userId);
+	public void deleteUser(String userId) {
 
-		// Exception for if the person trying to delete information is not valid
-		if (!(isUserValid(user, user.getName(), user.getPassword()))) {
-			throw new UserException("You are not valid!");
+		User userToDelete = findUser(userId);
+		if (userToDelete == null) {
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
+
 		repository.deleteById(userId);
 	}
 
-	public boolean isUserValid(User user, String userName, String userPassword) {
-		if (user.getName().equals(userName) && user.getPassword().equals(userPassword)) {
-			return true;
-		}
-		return false;
-	}
 }

@@ -25,12 +25,16 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public User fetch(@PathVariable String userId) throws Exception {
-		return service.findUser(userId);
+
+	public User fetch(@PathVariable String userId) {
+		User userToFetch = service.findUser(userId);
+
+		return userToFetch;
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public User update(@PathVariable String userId, @RequestBody User user) throws Exception {
+	public User update(@PathVariable String userId, @RequestBody User user) {
+
 
 		User userToUpdate = service.findUser(userId);
 
@@ -45,14 +49,14 @@ public class UserController {
 
 		service.saveUser(userToUpdate);
 		return userToUpdate;
-
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String userId) throws Exception {
+	public String delete(@PathVariable String userId) {
 
 		service.deleteUser(userId);
 		return "User deleted!";
+
 
 	}
 

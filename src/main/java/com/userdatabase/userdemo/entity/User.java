@@ -5,10 +5,12 @@ import org.springframework.data.annotation.Id;
 public class User {
 
 	@Id
-	String id;
-	String name;
-	String email;
-	String phoneNo;
+
+	private String id;
+	private String name;
+	private String email;
+	private String phoneNo;
+
 
 	// Constructor
 	public User(String name, String email, String phoneNo) {
@@ -16,6 +18,7 @@ public class User {
 		this.name = name;
 		this.email = email;
 		this.phoneNo = phoneNo;
+
 	}
 
 	public User() {
@@ -24,6 +27,11 @@ public class User {
 	// Getters and Setters
 	public String getId() {
 		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getName() {

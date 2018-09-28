@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
 
+import com.userdatabase.userdemo.exception.UserNotFoundException;
+
+
 @Service
 public class UserService {
 
@@ -15,19 +18,29 @@ public class UserService {
 	UserRepository repository;
 
 	public void saveUser(User user) {
+
 		repository.save(user);
 	}
 
-	public User findUser(String userId) throws Exception {
 
-		// Exception for if there is no user with given User Id
+	public User findUser(String userId) {
+
+
 		Optional<User> user = repository.findById(userId);
+
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
+		}
+
 		return user.get();
 	}
 
-	public void deleteUser(String userId) throws Exception {
+	public void deleteUser(String userId) {
 
-		// Exception for if the person trying to delete information is not valid
+		User userToDelete = findUser(userId);
+		if (userToDelete == null) {
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
+		}
 		repository.deleteById(userId);
 	}
 

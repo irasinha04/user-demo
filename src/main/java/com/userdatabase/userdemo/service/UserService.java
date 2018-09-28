@@ -24,7 +24,7 @@ public class UserService {
 
 		Optional<User> user = repository.findById(userId);
 
-		if (user == null) {
+		if (!user.isPresent()) {
 			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
 

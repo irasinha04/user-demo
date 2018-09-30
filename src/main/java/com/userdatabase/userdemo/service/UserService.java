@@ -7,24 +7,31 @@ import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
-
 import com.userdatabase.userdemo.exception.UserNotFoundException;
-
 
 @Service
 public class UserService {
 
 	@Autowired
-	UserRepository repository;
+	static UserRepository repository;
 
 	public void saveUser(User user) {
+
+		// String email = user.getEmail();
+		// String phone = user.getPhoneNo();
+
+		// User findByEmailAddress = repository.findByEmailAddress(email);
+		// User findByPhoneNo = repository.findByPhoneNo(phone);
+		//
+		// if ((findByEmailAddress != null) || (findByPhoneNo != null)) {
+		// throw new UserNotFoundException("User with same email id or phone no
+		// exists!");
+		// }
 
 		repository.save(user);
 	}
 
-
 	public User findUser(String userId) {
-
 
 		Optional<User> user = repository.findById(userId);
 

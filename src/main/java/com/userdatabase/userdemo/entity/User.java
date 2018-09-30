@@ -5,19 +5,23 @@ import org.springframework.data.annotation.Id;
 public class User {
 
 	@Id
-	String id;
-	String name;
-	String email;
-	String phoneNo;
-	String password;
+	private String id;
+
+	private String name;
+
+	// @Indexed(unique = true)
+	private String email;
+
+	// @Indexed(unique = true)
+	private String phoneNo;
 
 	// Constructor
-	public User(String name, String email, String phoneNo, String password) {
+	public User(String name, String email, String phoneNo) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.phoneNo = phoneNo;
-		this.password = password;
+
 	}
 
 	public User() {
@@ -28,9 +32,9 @@ public class User {
 		return id;
 	}
 
-	// public void setId(int id) {
-	// this.id = id;
-	// }
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getName() {
 		return name;
@@ -54,14 +58,6 @@ public class User {
 
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	// toString

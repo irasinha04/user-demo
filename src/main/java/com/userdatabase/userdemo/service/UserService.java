@@ -7,43 +7,48 @@ import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
-import com.userdatabase.userdemo.exception.UserException;
+import com.userdatabase.userdemo.exception.UserAlreadyExistsException;
+import com.userdatabase.userdemo.exception.UserNotFoundException;
 
 @Service
 public class UserService {
 
 	@Autowired
-	UserRepository repository;
+	static UserRepository repository;
 
-	public void saveUser(User user) {
+	public void saveUser(User user) throws UserAlreadyExistsException {
+
+		String email = user.getEmail();
+		String phone = user.getPhoneNo();
+
+		User findByEmailAddress = repository.findByEmailAddress(email);
+		User findByPhoneNo = repository.findByPhoneNo(phone);
+
+		if ((findByEmailAddress != null) || (findByPhoneNo != null)) {
+			throw new UserAlreadyExistsException("User with same email id or phone no exists!");
+		}
+
 		repository.save(user);
 	}
 
-	public User findUser(String userId) throws UserException {
+	public User findUser(String userId) {
 
-		// Exception for if there is no user with given User Id
 		Optional<User> user = repository.findById(userId);
-		if (user == null) {
-			throw new UserException("No such record found for User id :" + userId);
+
+		if (!user.isPresent()) {
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
 
 		return user.get();
 	}
 
-	public void deleteUser(String userId) throws UserException {
-		User user = findUser(userId);
+	public void deleteUser(String userId) {
 
-		// Exception for if the person trying to delete information is not valid
-		if (!(isUserValid(user, user.getName(), user.getPassword()))) {
-			throw new UserException("You are not valid!");
+		User userToDelete = findUser(userId);
+		if (userToDelete == null) {
+			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
 		repository.deleteById(userId);
 	}
 
-	public boolean isUserValid(User user, String userName, String userPassword) {
-		if (user.getName().equals(userName) && user.getPassword().equals(userPassword)) {
-			return true;
-		}
-		return false;
-	}
 }

@@ -8,11 +8,7 @@ public class User {
 	private String id;
 
 	private String name;
-
-	// @Indexed(unique = true)
 	private String email;
-
-	// @Indexed(unique = true)
 	private String phoneNo;
 
 	// Constructor

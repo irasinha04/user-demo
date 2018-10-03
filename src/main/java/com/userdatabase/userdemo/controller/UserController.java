@@ -15,7 +15,7 @@ import com.userdatabase.userdemo.service.UserService;
 public class UserController {
 
 	@Autowired
-	UserService service;
+	private UserService service;
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(@RequestBody User user) {
@@ -34,7 +34,6 @@ public class UserController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
 	public User update(@PathVariable String userId, @RequestBody User user) {
-
 
 		User userToUpdate = service.findUser(userId);
 
@@ -56,7 +55,6 @@ public class UserController {
 
 		service.deleteUser(userId);
 		return "User deleted!";
-
 
 	}
 

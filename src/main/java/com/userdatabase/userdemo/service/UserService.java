@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
 import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.exception.UserCredentialDuplicateException;
 import com.userdatabase.userdemo.exception.UserNotFoundException;
 
 @Service
@@ -17,7 +18,12 @@ public class UserService {
 
 	public void saveUser(User user) {
 
-		repository.save(user);
+		try {
+			repository.save(user);
+		} catch (Exception e) {
+			throw new UserCredentialDuplicateException(
+					"The Email ID and/or Phone Number already exists for another user!");
+		}
 	}
 
 	public User findUser(String userId) {

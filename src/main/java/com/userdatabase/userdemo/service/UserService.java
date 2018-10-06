@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
-import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.entity.Users;
 import com.userdatabase.userdemo.exception.UserCredentialDuplicateException;
 import com.userdatabase.userdemo.exception.UserNotFoundException;
 
@@ -16,7 +16,7 @@ public class UserService {
 	@Autowired
 	private UserRepository repository;
 
-	public void saveUser(User user) {
+	public void saveUser(Users user) {
 
 		try {
 			repository.save(user);
@@ -26,9 +26,9 @@ public class UserService {
 		}
 	}
 
-	public User findUser(String userId) {
+	public Users findUser(String userId) {
 
-		Optional<User> user = repository.findById(userId);
+		Optional<Users> user = repository.findById(userId);
 
 		if (!user.isPresent()) {
 			throw new UserNotFoundException("oops!!! something went wrong... user not found");
@@ -39,7 +39,7 @@ public class UserService {
 
 	public void deleteUser(String userId) {
 
-		User userToDelete = findUser(userId);
+		Users userToDelete = findUser(userId);
 		if (userToDelete == null) {
 			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.entity.Users;
 import com.userdatabase.userdemo.service.UserService;
 
 @RestController
@@ -18,7 +18,7 @@ public class UserController {
 	private UserService service;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@RequestBody User user) {
+	public String create(@RequestBody Users user) {
 
 		service.saveUser(user);
 		return user.getId();
@@ -26,16 +26,16 @@ public class UserController {
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 
-	public User fetch(@PathVariable String userId) {
-		User userToFetch = service.findUser(userId);
+	public Users fetch(@PathVariable String userId) {
+		Users userToFetch = service.findUser(userId);
 
 		return userToFetch;
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public User update(@PathVariable String userId, @RequestBody User user) {
+	public Users update(@PathVariable String userId, @RequestBody Users user) {
 
-		User userToUpdate = service.findUser(userId);
+		Users userToUpdate = service.findUser(userId);
 
 		if (user.getName() != null)
 

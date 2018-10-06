@@ -13,6 +13,7 @@ import com.userdatabase.userdemo.model.AccessUserError;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
 	@ExceptionHandler(UserNotFoundException.class)
 	public ResponseEntity<AccessUserError> userNotFoundError(HttpServletRequest request, Exception ex) {
 		return new ResponseEntity<AccessUserError>(AccessUserError.showMessage(ex.getMessage()), null,

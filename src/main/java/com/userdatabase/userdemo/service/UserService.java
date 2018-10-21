@@ -2,11 +2,13 @@ package com.userdatabase.userdemo.service;
 
 import java.util.Optional;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.userdatabase.userdemo.database.UserRepository;
-import com.userdatabase.userdemo.entity.Users;
+import com.userdatabase.userdemo.entity.Login;
+import com.userdatabase.userdemo.entity.User;
 import com.userdatabase.userdemo.exception.UserCredentialDuplicateException;
 import com.userdatabase.userdemo.exception.UserNotFoundException;
 
@@ -14,21 +16,23 @@ import com.userdatabase.userdemo.exception.UserNotFoundException;
 public class UserService {
 
 	@Autowired
-	private UserRepository repository;
+	private UserRepository userRepository;
 
-	public void saveUser(Users user) {
+	public void saveUser(User user) {
 
 		try {
-			repository.save(user);
+			user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(5)));
+			userRepository.save(user);
 		} catch (Exception e) {
 			throw new UserCredentialDuplicateException(
-					"The Email ID and/or Phone Number already exists for another user!");
+					"The Username/Email ID/Phone Number already exists for another user!");
+
 		}
 	}
 
-	public Users findUser(String userId) {
+	public User findUser(String userId) {
 
-		Optional<Users> user = repository.findById(userId);
+		Optional<User> user = userRepository.findById(userId);
 
 		if (!user.isPresent()) {
 			throw new UserNotFoundException("oops!!! something went wrong... user not found");
@@ -39,11 +43,19 @@ public class UserService {
 
 	public void deleteUser(String userId) {
 
-		Users userToDelete = findUser(userId);
+		User userToDelete = findUser(userId);
 		if (userToDelete == null) {
 			throw new UserNotFoundException("oops!!! something went wrong... user not found");
 		}
-		repository.deleteById(userId);
+		userRepository.deleteById(userId);
+	}
+
+	public User authenticateUser(Login login) {
+		User user = userRepository.findByUsername(login.getUsername());
+		if (!BCrypt.checkpw(login.getPassword(), user.getPassword())) {
+			throw new UserNotFoundException("Invalid Credentials!");
+		}
+		return user;
 	}
 
 }

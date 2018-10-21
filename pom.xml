@@ -46,15 +46,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+	
+					<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
 		<dependency>
-  			<groupId>org.springframework.boot</groupId>
-  			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		
-		<dependency>
-   			<groupId>com.fasterxml.jackson.datatype</groupId>
-   			<artifactId>jackson-datatype-jsr310</artifactId>
+		    <groupId>org.mindrot</groupId>
+		    <artifactId>jbcrypt</artifactId>
+		    <version>0.3m</version>
 		</dependency>
 		
 	</dependencies>

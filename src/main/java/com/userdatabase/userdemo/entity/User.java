@@ -5,10 +5,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Users {
+public class User {
 
 	@Id
-	private String id;
+	private String userId;
 
 	private String name;
 
@@ -24,7 +24,7 @@ public class Users {
 	private String phoneNo;
 
 	// Constructor
-	public Users(String name, String username, String password, String email, String phoneNo) {
+	public User(String name, String username, String password, String email, String phoneNo) {
 		super();
 		this.name = name;
 		this.username = username;
@@ -34,16 +34,16 @@ public class Users {
 
 	}
 
-	public Users() {
+	public User() {
 	}
 
 	// Getters and Setters
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String id) {
+		this.userId = id;
 	}
 
 	public String getName() {
@@ -89,7 +89,7 @@ public class Users {
 	// toString
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phoneNo=" + phoneNo + "]";
+		return "User [id=" + userId + ", name=" + name + ", email=" + email + ", phoneNo=" + phoneNo + "]";
 	}
 
 }

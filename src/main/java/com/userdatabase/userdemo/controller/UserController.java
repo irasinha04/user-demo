@@ -3,11 +3,17 @@ package com.userdatabase.userdemo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.userdatabase.userdemo.entity.Users;
+import com.userdatabase.userdemo.entity.Login;
+import com.userdatabase.userdemo.entity.User;
+import com.userdatabase.userdemo.entity.UserToken;
+import com.userdatabase.userdemo.exception.TokenNotActiveException;
+import com.userdatabase.userdemo.exception.TokenNotValidException;
+import com.userdatabase.userdemo.service.TokenService;
 import com.userdatabase.userdemo.service.UserService;
 
 @RestController
@@ -15,27 +21,62 @@ import com.userdatabase.userdemo.service.UserService;
 public class UserController {
 
 	@Autowired
-	private UserService service;
+	private UserService userService;
+
+	@Autowired
+	private TokenService tokenService;
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@RequestBody Users user) {
+	public String create(@RequestBody User user) {
 
-		service.saveUser(user);
-		return user.getId();
+		userService.saveUser(user);
+		return user.getUserId();
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public UserToken loginUser(@RequestBody Login login) {
+		User user = userService.authenticateUser(login);
+
+		return tokenService.createToken(user.getUserId());
+
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public void logoutUser(@RequestHeader(value = "User-Token") String userToken) {
+
+		UserToken readToken = tokenService.readToken(userToken);
+
+		if (!readToken.isActive()) {
+			throw new TokenNotActiveException("Session expired !");
+		}
+
+		tokenService.logout(readToken.getToken());
+
 	}
 
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 
-	public Users fetch(@PathVariable String userId) {
-		Users userToFetch = service.findUser(userId);
+	public String fetch(@PathVariable String userId) {
+		User userToFetch = userService.findUser(userId);
 
-		return userToFetch;
+		String userToDisplay = userToFetch.toString();
+
+		return userToDisplay;
 	}
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-	public Users update(@PathVariable String userId, @RequestBody Users user) {
+	@RequestMapping(method = RequestMethod.PUT)
+	public User update(@RequestHeader(value = "User-Token") String userToken, @RequestBody User user) {
+		UserToken readToken = tokenService.readToken(userToken);
 
-		Users userToUpdate = service.findUser(userId);
+		User userToUpdate = userService.findUser(readToken.getUserId());
+
+		if (!readToken.isActive()) {
+			throw new TokenNotActiveException("Session expired ! Please login again.");
+		}
+
+		if (!userToUpdate.getUserId().equals(readToken.getUserId())) {
+			throw new TokenNotValidException("Access not allowed !");
+		}
 
 		if (user.getName() != null)
 
@@ -46,14 +87,26 @@ public class UserController {
 		if (user.getPhoneNo() != null)
 			userToUpdate.setPhoneNo(user.getPhoneNo());
 
-		service.saveUser(userToUpdate);
+		userService.saveUser(userToUpdate);
 		return userToUpdate;
 	}
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String userId) {
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String delete(@RequestHeader(value = "User-Token") String userToken, @PathVariable String userId) {
 
-		service.deleteUser(userId);
+		UserToken readToken = tokenService.readToken(userToken);
+
+		User userToUpdate = userService.findUser(readToken.getUserId());
+
+		if (!readToken.isActive()) {
+			throw new TokenNotActiveException("Session expired ! Please login again.");
+		}
+
+		if (!userToUpdate.getUserId().equals(readToken.getUserId())) {
+			throw new TokenNotValidException("Access not allowed !");
+		}
+
+		userService.deleteUser(userId);
 		return "User deleted!";
 
 	}

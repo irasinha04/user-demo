@@ -8,9 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 
 	@Id
-	private String id;
+	private String userId;
 
 	private String name;
+
+	@Indexed(unique = true)
+	private String username;
+
+	private String password;
 
 	@Indexed(unique = true)
 	private String email;
@@ -19,9 +24,11 @@ public class User {
 	private String phoneNo;
 
 	// Constructor
-	public User(String name, String email, String phoneNo) {
+	public User(String name, String username, String password, String email, String phoneNo) {
 		super();
 		this.name = name;
+		this.username = username;
+		this.password = password;
 		this.email = email;
 		this.phoneNo = phoneNo;
 
@@ -31,12 +38,12 @@ public class User {
 	}
 
 	// Getters and Setters
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String id) {
+		this.userId = id;
 	}
 
 	public String getName() {
@@ -45,6 +52,22 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getEmail() {
@@ -66,7 +89,7 @@ public class User {
 	// toString
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phoneNo=" + phoneNo + "]";
+		return "User [id=" + userId + ", name=" + name + ", email=" + email + ", phoneNo=" + phoneNo + "]";
 	}
 
 }
